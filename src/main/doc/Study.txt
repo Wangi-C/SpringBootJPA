@@ -1,0 +1,36 @@
+<12/28> 라이브러리 살펴보기
+spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입해준다.
+핵심 라이브러리
+- 스프링mvc
+- 스프링orm
+- jpa,하이버네이트
+- 스프링 데이터jpa
+
+<12/29> View 환경 설정 & H2 데이터베이스 설치
+1. View 환경 설정 _ Thymeleaf
+    Thymeleaf란? Template Engine의 일종.
+    장 : Spring과의 조합이 좋다. Spring에서 권장하는 template 엔진.
+
+    *html코드 조금만 수정하고 자동으로 complie해주는 라이브러리 Dependency 추가*
+     implementation 'org.springframework.boot:spring-boot-devtools'
+     -> html 수정 후 'build -> Recomplie ~.html' 선택.
+
+    *오류
+     Spring boot 버전 문제 _ Controller에서 view로 model.addAttribute("data") 해주었는데 view에서 해당 data 를 읽어오지 못한다.
+     해결 : Plugin 버전 수정.
+            id 'java'
+          	id 'org.springframework.boot' version '2.7.7' -> 2.4.1
+          	id 'io.spring.dependency-management' version '1.0.15.RELEASE' -> 1.0.10.RELEASE
+
+2. H2 데이터베이스 설치
+    ./h2.bat 실행 -> 192.168.219.107:8082/login.jsp?jsessionid=(key값) url 이동 *key값은 유지해준다.* -> http://localhost:8082/login.jsp?jsessionid=3771b07e2d9de744661d20d096d02802 로 이동
+
+     1) jdbc url (jdbc:h2:~/jpashop) 최초 한번
+     2) ~/jpashop.mv.db 파일이 생성되었는지 확인
+     3) jdbc:h2:tcp://localhost/~/jpashop 네트웍 모드로 접근(앞으로)
+     => 세션을 위해 최초 한번이 필요했다.
+     => 항상 ./h2.bat 실행 후 사용
+
+    *오류
+     설치 후 ./h2.sh 실행 시 오류 발생
+     해결 : ./h2.bat 실행

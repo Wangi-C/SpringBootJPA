@@ -34,3 +34,15 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
     *오류
      설치 후 ./h2.sh 실행 시 오류 발생
      해결 : ./h2.bat 실행
+
+3. JPA와 DB설정, 동작확인
+    - 오류발생 : Failed to load ApplicationContext
+    - 해결 : application.yml -> spring.datasource.url : jdbc:jpa:tcp://localhost/~/jpashop; (MVCC=TRUE)->제외.
+       MVCC=TRUE 이게 뭘까?
+
+    * Transactional : Test에 있을 경우, test가 끝난 이후 rollback 진행. -> insert 된 데이터가 없다.
+    * 같은 영속성컨텍스트 안에서 저장,조회 되면 같은 entity로 조회
+        -> Test에서 find함수로 member를 조회하지만, 로그를 확인했을때 insert query문만 나오고 select query문은 나오지 않는다.
+        -> 영속성 컨텍스트에서 관리되어지고 있는(1차 캐시) member 엔티티를 조회해온 것이다.
+    * .jar 파일로 실행
+        User/IdeaProject/jpashop 이동 -> ./gradlew.bat clean build -> java -jar jar파일

@@ -18,15 +18,15 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne //Order입장에서 Order 와 Member는 다대일 관계이다.
+    @ManyToOne(fetch = FetchType.LAZY) //Order입장에서 Order 와 Member는 다대일 관계이다.
     @JoinColumn(name = "member_id") //fk 설정
     private Member member;
 
     //* 중요 * 양방향 관계에서는 연관관계에서의 주인을 정해줘야한다. -> fk에 가까운 테이블 : 주인
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 

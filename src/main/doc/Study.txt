@@ -46,3 +46,29 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
         -> 영속성 컨텍스트에서 관리되어지고 있는(1차 캐시) member 엔티티를 조회해온 것이다.
     * .jar 파일로 실행
         User/IdeaProject/jpashop 이동 -> ./gradlew.bat clean build -> java -jar jar파일
+
+3. 엔티티 클래스 개발
+    - @Embeddable : 해당 클래스가 jpa의 내장타입이라는 것을 선언 / @Embedded : 해당 타입이 jpa 내장타입이라는 것을 알려줌
+    - @OneToMany / @ManyToOne : 일대다 / 다대일 관계
+       * 중요 : 해당 관계에서는 관계의 주인이 필요하다 -> fk에 가까이 있는 table이 주인
+         다) @JoinColumn(name = "") : fk 선정
+         일) @OneToMany(mappedBy = "") : (다)에 들어간 매핑명
+    - @Enumerated(EnumType.ORDINAL / EnumType.STRING)
+       EnumType.ORDINAL : default값, index로 Enum값 추출 -> enumType 이 추가되어 순서가 변경되면 오류가 발생할 수 있음.
+       EnumType.STRING : 순서와 상관없이 호출 -> EnumType 명을 호출.
+
+  # 엔티티 설계시 주의점
+    1. 엔티티에는 가급적 Setter를 사용하지 말자.
+       변경 포인트가 많아지면 유지보수가 어려워진다.
+
+    ** 2. 모든 연관관계는 지연로딩으로 설정!!! : 매우 중요
+       지연로딩(LAZY)로 설정해야한다.
+       즉시로딩(EAGER) : JPQL을 실행할 때 N+1문제가 발생한다.
+       @xToOne(ManyToOne, ManyToMany) : fetch전략이 EAGER -> 반드시 LAZY로 변경.
+
+    3. 컬렉션은 필드에서 바로 초기화 하자.
+       하이버네이트는 엔티티를 영속화할 때, 컬렉션을 감싸서 하이버네이트 제공하는 내장 컬렉션으로 변경한다.
+
+    4. casecade = CasecadeType.ALL
+       jpa의 기본 : 넣고 싶은 값은 무조건 persist 해주어야한다.
+       위 옵션을 사용하면 A객체를 persist하면 B도 같이 자동으로 persist되어진다.

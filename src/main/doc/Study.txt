@@ -83,3 +83,16 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
     - @PersistenceContext / @RequiredArgsConstructor 를 활용하여 EntityManager 자동의존주입해줌.
     - 다건 조회시, findAll(jpql, .class) -> ex) findAll("select m from Member m", Member.class).getResultList(); : Member.class 의 데이터를 모두 조회한다.
     - 단건 조회시, findByName("select m from Member m where name = :name",Member.class).setParameter(name).getResultList(); : 이름으로 Member 조회
+    - Test 코드 분석
+       1) @RunWith(SpringRunner.class) : junit 실행될 때, spring도 엮어서 실행되게끔
+       2) @SpringBootTest : SpringBoot를 띄운 상태로 Test 진행.
+       3) @Transactional : test 시작할때 Transaction 시작하고 종료하면 rollback 진행. (test 코드에 있을 경우에만)
+    - Test로 member를 join(persist)를 해준다. -> 해당 member를 조회한다
+        : 로그를 확인했을때 분명 persist로 회원을 등록해줬는데 왜 insert query문이 없지?
+          >> @Transactional 이 Test코드에 있으면 기본적으로 Rollback 진행해주기 때문에
+    - Test시 실제 db를 띄우지 않고 하는 방법
+        1) test에 resource 디렉토리생성
+        2) application.yml 복사 붙여넣기
+        3) h2database.com 접속 -> Cheat Sheet
+        4) In-Memory - jdbc:h2:mem:test를 application.yml의 spring:datasource:url 에 넣는다.
+        ##Test를 SpringBoot 활용할때는 위 설정이 없어도 된다. (application.yml 정보가 없어도됌.) 자동으로 memory 모드로 진행.

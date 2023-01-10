@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class MemberRepository {
+public class MemberRepository_sub {
 
     // implementation 'org.springframework.boot:spring-boot-starter-data-jpa' -> EntityManager 자동 주입.
     @PersistenceContext

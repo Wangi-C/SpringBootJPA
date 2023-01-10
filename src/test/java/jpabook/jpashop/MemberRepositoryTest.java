@@ -10,14 +10,12 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @RunWith(SpringRunner.class) //나 스프링과 관련된 Test할거라는 것을 junit에게 알려준다.
 @SpringBootTest
 class MemberRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberRepository_sub memberRepository;
 
     @Test
     @Transactional

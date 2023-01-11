@@ -96,3 +96,10 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
         3) h2database.com 접속 -> Cheat Sheet
         4) In-Memory - jdbc:h2:mem:test를 application.yml의 spring:datasource:url 에 넣는다.
         ##Test를 SpringBoot 활용할때는 위 설정이 없어도 된다. (application.yml 정보가 없어도됌.) 자동으로 memory 모드로 진행.
+
+5. 주문 도메인,레파지토리,서비스 개발
+    #Service
+     - Delivery / Order 따로 생성하여 persist가 필요하다. -> 1.Delivery 생성 2.Delivery 객체 persist 3.Order 생성(Delivery 필요) 4.Order 객체 persist
+         >> 하지만 OrderRepository.save(Order) 만 함. -> Order 도메인에서 delivery에 @OneToOne(fetch = LAZY, casecade = CasecadeType.All) 설정해줌.
+             -> Order를 persist하면 casecade = casecadeType.ALL 설정되어 있는 OrderItem, delivery 가 자동으로 persist됨.
+         ** OrderItem, delivery를 다른데서 자주 사용한다면 casecade를 안하는 게 좋음. 직접 persist 해주면서 진행.

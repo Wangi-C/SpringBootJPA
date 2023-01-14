@@ -81,7 +81,7 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
     #Repository 영역
     - @Repository로 ComponentScan 대상으로 선정.
     - @PersistenceContext / @RequiredArgsConstructor 를 활용하여 EntityManager 자동의존주입해줌.
-    - 다건 조회시, findAll(jpql, .class) -> ex) findAll("select m from Member m", Member.class).getResultList(); : Member.class 의 데이터를 모두 조회한다.
+    - 다건 조회시, findAll(jpql, .class) -> ex) findAll("select m from Member m", Member.class).getResultList(); : Member.class 의 데이터를 모두 조회한다
     - 단건 조회시, findByName("select m from Member m where name = :name",Member.class).setParameter(name).getResultList(); : 이름으로 Member 조회
     - Test 코드 분석
        1) @RunWith(SpringRunner.class) : junit 실행될 때, spring도 엮어서 실행되게끔
@@ -103,3 +103,7 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
          >> 하지만 OrderRepository.save(Order) 만 함. -> Order 도메인에서 delivery에 @OneToOne(fetch = LAZY, casecade = CasecadeType.All) 설정해줌.
              -> Order를 persist하면 casecade = casecadeType.ALL 설정되어 있는 OrderItem, delivery 가 자동으로 persist됨.
          ** OrderItem, delivery를 다른데서 자주 사용한다면 casecade를 안하는 게 좋음. 직접 persist 해주면서 진행.
+    #김재영과장 - QueryDSL
+
+    #Test
+     - 첫 테스트 오류 : No Default Constructor for Address -> Address : Embedded객체이다. 일반 생성자가 없어서 난 오류.

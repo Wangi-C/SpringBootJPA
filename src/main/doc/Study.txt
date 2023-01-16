@@ -107,3 +107,5 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
 
     #Test
      - 첫 테스트 오류 : No Default Constructor for Address -> Address : Embedded객체이다. 일반 생성자가 없어서 난 오류.
+
+    #JPA에서는 동적 쿼리를 어떻게 해결해야 하는가?

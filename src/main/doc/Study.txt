@@ -109,3 +109,13 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
      - 첫 테스트 오류 : No Default Constructor for Address -> Address : Embedded객체이다. 일반 생성자가 없어서 난 오류.
 
     #JPA에서는 동적 쿼리를 어떻게 해결해야 하는가?
+
+6. 홈 화면과 레이아웃
+    #에러 : An error happened during template parsing (template: "class path resource [templates/home.html]")
+           - home.html에서 include할 페이지가 존재하지 않아서 발생.
+    #에러 : Validation failed for object='memberForm'. Error count: 1 / org.springframework.validation.BindException:
+           - memberForm 객체의 name이 비어있어 error가 발생했는데 아무런 처리가 없어서 error페이지 발생.
+             BindingResult를 이용해서 memberForm valid과정에서 error가 발생하면 BindingResult객체에 담도록 한다.
+             BindingResult.hasErrors() 로 error가 존재하면 처리할 코드를 작성해준다.
+    # Form객체 vs Entity객체 : 요구사항이 단순할 경우 Entity 사용가능. but 실무에서는 복잡 -> form객체가 필요. / Entity 더러워져서 유지보수성이 떨어짐.
+    # **API를 만들때는 절대!!! 외부로 Entity를 반환해서는 안된다!**

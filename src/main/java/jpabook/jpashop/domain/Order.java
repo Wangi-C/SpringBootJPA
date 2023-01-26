@@ -26,10 +26,10 @@ public class Order {
     private Member member;
 
     //* 중요 * 양방향 관계에서는 연관관계에서의 주인을 정해줘야한다. -> fk에 가까운 테이블 : 주인
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
 

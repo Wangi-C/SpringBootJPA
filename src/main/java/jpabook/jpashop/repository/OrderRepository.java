@@ -26,7 +26,7 @@ public class OrderRepository {
     }
 
     public List<Order> findAll(OrderSearch orderSearch) {
-        /*List<Order> resultList = em.createQuery("select 0 from Order o join o.member m" +
+        List<Order> resultList = em.createQuery("select 0 from Order o join o.member m" +
                         " where o.status = :status " +
                         "and m.name like :name", Order.class)
                 .setParameter("status", orderSearch.getOrderStatus())
@@ -34,9 +34,10 @@ public class OrderRepository {
                 .setMaxResults(1000) //최대 1000건
                 .getResultList();
 
-        return resultList;*/
+        return resultList;
+    }
 
-        /**첫번째, 노가다.**/
+    public List<Order> findAllByString(OrderSearch orderSearch) {
         String jpql = "select o From Order o join o.member m";
         boolean isFirstCondition = true;
         //주문 상태 검색
@@ -68,7 +69,6 @@ public class OrderRepository {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
         return query.getResultList();
-        /************************/
     }
 
     /**두번째, JPA Criteria -> 동적

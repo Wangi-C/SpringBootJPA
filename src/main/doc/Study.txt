@@ -119,3 +119,29 @@ spring-boot-starter-? : 필요한 라이브러리를 자동으로 의존주입�
              BindingResult.hasErrors() 로 error가 존재하면 처리할 코드를 작성해준다.
     # Form객체 vs Entity객체 : 요구사항이 단순할 경우 Entity 사용가능. but 실무에서는 복잡 -> form객체가 필요. / Entity 더러워져서 유지보수성이 떨어짐.
     # **API를 만들때는 절대!!! 외부로 Entity를 반환해서는 안된다!**
+
+7. 병합merge vs 변경감지
+ - jpa왈(가이드) : "변경감지 best"
+ #준영속 엔티티
+    - 영속성 컨텍스트가 더이상 관리하지 않는 엔티티
+    ex) Book객체는 이미 db에 한번 저장되어서 식별자가 존재한다.
+        이렇게 임의로 만들어낸 엔티티도 기존 식별자를 가지고 있으면 준영속성 엔티티라고 한다.
+    - Book객체를 내가 직접 new해서 만든 객체이기 때문에 jpa에서 관리할 명분이 없다.
+
+- 준영속 엔티티를 수정
+  변경 감지 / 병합
+  < 병합 > 파라미터로 들어온 엔티티
+  동작방식 : 1) 준영속 엔티티의 식별자 값으로 영속엔티티를 조회한다.
+           2) 영속 엔티티의 값을 준영속 엔티티의 값으로 모두 교체한다.
+           3) 트랜잭션 커밋 시점에 변경 감지 기능이 동작해서 db에 update sql이 실행.
+   주의 : 모든 속성이 변경되므로 병합시 값이 없으면(null)로 업데이트 할 위험이 있다.
+
+-controller에서 어설프게 객체를 만들지 말자.
+- 핵심 비즈니스 로직이 있을 경우, 식별자만 controller에서 넘겨주고 service transaction 안에서 조회 후 영속상태에서 진행가능.
+   -> dirty checking이 가능하다.
+  #에러 : java.lang.IllegalStateException: org.hibernate.TransientPropertyValueException:
+          object references an unsaved transient instance - save the transient instance before flushing :
+          jpabook.jpashop.domain.Order.delivery -> jpabook.jpashop.domain.Delivery
+         - Order Domain 문제 : orderItems - mappedBy = "order", cascade=CascadeType.ALL 설정이 안되어 있었음.
+                              delivery - cascade = CascadeType.ALL 설정이 안되어 있었음.
+         - mappedBy / cascade=CascadeType.ALL 의 의미를 확실히 알고 넘어갈 필요가 있다.
